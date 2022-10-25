@@ -1,4 +1,7 @@
 
+
+# How to Set Up a Demo etcd Cluster
+
 - [How to Set Up a Demo etcd Cluster](#how-to-set-up-a-demo-etcd-cluster)
   * [Download And Install](#download-and-install)
   * [Run 1 Node Etcd](#run-1-node-etcd)
@@ -6,8 +9,7 @@
   * [1. For Node 1](#1-for-node-1)
   * [2. For Node 2](#2-for-node-2)
   * [2. For Node 3](#2-for-node-3)
-
-# How to Set Up a Demo etcd Cluster
+  
 ## Download And Install
 
 ```shell
