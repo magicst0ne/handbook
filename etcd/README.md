@@ -79,7 +79,7 @@ EOF
 
 ## run 3 node etcd cluster
 
-### 1. for node 1
+-  for node 1
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -133,7 +133,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### 2. for node 2
+-  for node 2
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -188,7 +188,7 @@ EOF
 ```
 
 
-### 3. for node 3
+-  for node 3
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
