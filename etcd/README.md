@@ -1,5 +1,9 @@
 # How to Set Up a Demo etcd Cluster
 
+……
+[TOC]
+……
+
 ## download and install binary
 
 ```shell
