@@ -19,10 +19,214 @@ rm -rf /tmp/etcd-${ETCD_VER}
 
 ```
 
-## run a 1 node etcd
+## run 1 node etcd
 
-## run a 1 node etcd on container
+```
+export ETCD_TOKEN=token
+export ETCD_CLUSTER_STATE=new
+export ETCD_NAME_1=node-1
+export ETCD_NODE_1=192.168.1.101
+export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380
 
-## run a 3 node etcd cluster
+cat > /usr/lib/systemd/system/etcd.service << EOF
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
 
-## run a 3 node etcd cluster on container
+[Service]
+Type=notify
+WorkingDirectory=/k8s/etcd/
+#User=etcd
+
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
+  --name ${ETCD_NAME_1} \
+  --data-dir /k8s/etcd/data.etcd \
+  --listen-client-urls https://${ETCD_NODE_1}:2379 \
+  --advertise-client-urls https://${ETCD_NODE_1}:2379 \
+  --listen-peer-urls https://${ETCD_NODE_1}:2380 \
+  --initial-advertise-peer-urls https://${ETCD_NODE_1}:2380 \
+  --initial-cluster ${ETCD_CLUSTER} \
+  --initial-cluster-token ${ETCD_TOKEN} \
+  --initial-cluster-state ${ETCD_CLUSTER_STATE} \
+  --heartbeat-interval=100 \
+  --election-timeout=500 \
+  --snapshot-count=5000 \
+  --log-level info \
+  --logger zap \
+  --log-outputs stderr"
+
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+## run 3 node etcd cluster
+
+### for node 1
+```
+export ETCD_TOKEN=tkn.0x0E
+export ETCD_CLUSTER_STATE=new
+export ETCD_NAME_1=node-1
+export ETCD_NAME_2=node-2
+export ETCD_NAME_3=node-3
+export ETCD_NODE_1=192.168.11.101
+export ETCD_NODE_2=192.168.11.102
+export ETCD_NODE_3=192.168.11.103
+export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=https://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=https://${ETCD_NODE_3}:2380
+
+#for node 1
+export THIS_NAME=${ETCD_NAME_1}
+export THIS_IP=${ETCD_NODE_1}
+
+cat > /usr/lib/systemd/system/etcd.service << EOF
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+WorkingDirectory=/usr/local/etcd/
+#User=etcd
+
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
+  --name ${THIS_NAME} \
+  --data-dir /k8s/etcd/data.etcd \
+  --listen-client-urls https://${THIS_IP}:2379 \
+  --advertise-client-urls https://${THIS_IP}:2379 \
+  --listen-peer-urls https://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --initial-cluster ${CLUSTER} \
+  --initial-cluster-token ${ETCD_TOKEN} \
+  --initial-cluster-state ${ETCD_CLUSTER_STATE} \
+  --heartbeat-interval=100 \
+  --election-timeout=500 \
+  --snapshot-count=5000 \
+  --log-level info \
+  --logger zap \
+  --log-outputs stderr"
+
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+### for node 2
+```
+export ETCD_TOKEN=tkn.0x0E
+export ETCD_CLUSTER_STATE=new
+export ETCD_NAME_1=node-1
+export ETCD_NAME_2=node-2
+export ETCD_NAME_3=node-3
+export ETCD_NODE_1=192.168.11.101
+export ETCD_NODE_2=192.168.11.102
+export ETCD_NODE_3=192.168.11.103
+export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=https://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=https://${ETCD_NODE_3}:2380
+
+#for node 1
+export THIS_NAME=${ETCD_NAME_2}
+export THIS_IP=${ETCD_NODE_2}
+
+cat > /usr/lib/systemd/system/etcd.service << EOF
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+WorkingDirectory=/usr/local/etcd/
+#User=etcd
+
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
+  --name ${THIS_NAME} \
+  --data-dir /k8s/etcd/data.etcd \
+  --listen-client-urls https://${THIS_IP}:2379 \
+  --advertise-client-urls https://${THIS_IP}:2379 \
+  --listen-peer-urls https://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --initial-cluster ${CLUSTER} \
+  --initial-cluster-token ${ETCD_TOKEN} \
+  --initial-cluster-state ${ETCD_CLUSTER_STATE} \
+  --heartbeat-interval=100 \
+  --election-timeout=500 \
+  --snapshot-count=5000 \
+  --log-level info \
+  --logger zap \
+  --log-outputs stderr"
+
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+
+### for node 3
+```
+export ETCD_TOKEN=tkn.0x0E
+export ETCD_CLUSTER_STATE=new
+export ETCD_NAME_1=node-1
+export ETCD_NAME_2=node-2
+export ETCD_NAME_3=node-3
+export ETCD_NODE_1=192.168.11.101
+export ETCD_NODE_2=192.168.11.102
+export ETCD_NODE_3=192.168.11.103
+export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=https://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=https://${ETCD_NODE_3}:2380
+
+#for node 3
+export THIS_NAME=${ETCD_NAME_3}
+export THIS_IP=${ETCD_NODE_3}
+
+cat > /usr/lib/systemd/system/etcd.service << EOF
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+WorkingDirectory=/usr/local/etcd/
+#User=etcd
+
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
+  --name ${THIS_NAME} \
+  --data-dir /k8s/etcd/data.etcd \
+  --listen-client-urls https://${THIS_IP}:2379 \
+  --advertise-client-urls https://${THIS_IP}:2379 \
+  --listen-peer-urls https://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --initial-cluster ${CLUSTER} \
+  --initial-cluster-token ${ETCD_TOKEN} \
+  --initial-cluster-state ${ETCD_CLUSTER_STATE} \
+  --heartbeat-interval=100 \
+  --election-timeout=500 \
+  --snapshot-count=5000 \
+  --log-level info \
+  --logger zap \
+  --log-outputs stderr"
+
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
