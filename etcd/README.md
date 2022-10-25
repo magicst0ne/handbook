@@ -1,8 +1,12 @@
 # How to Set Up a Demo etcd Cluster
 
-……
-[TOC]
-……
+- [How to Set Up a Demo etcd Cluster](#how-to-set-up-a-demo-etcd-cluster)
+  * [download and install binary](#download-and-install-binary)
+  * [run 1 node etcd](#run-1-node-etcd)
+  * [run 3 node etcd cluster](#run-3-node-etcd-cluster)
+    + [1. for node 1](#1-for-node-1)
+    + [2. for node 2](#2-for-node-2)
+    + [3. for node 3](#3-for-node-3)
 
 ## download and install binary
 
