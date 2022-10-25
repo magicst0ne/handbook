@@ -1,4 +1,4 @@
-#How to Set Up a Demo etcd Cluster
+# How to Set Up a Demo etcd Cluster
 
 ## run a 1 node etcd
 
