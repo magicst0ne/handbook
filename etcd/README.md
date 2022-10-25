@@ -28,6 +28,9 @@ export ETCD_NAME_1=node-1
 export ETCD_NODE_1=192.168.1.101
 export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380
 
+export THIS_NAME=${ETCD_NAME_1}
+export THIS_IP=${ETCD_NODE_1}
+
 cat > /usr/lib/systemd/system/etcd.service << EOF
 [Unit]
 Description=Etcd Server
@@ -42,13 +45,13 @@ WorkingDirectory=/k8s/etcd/
 
 # set GOMAXPROCS to number of processors
 ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
-  --name ${ETCD_NAME_1} \
+  --name ${THIS_NAME} \
   --data-dir /k8s/etcd/data.etcd \
-  --listen-client-urls https://${ETCD_NODE_1}:2379 \
-  --advertise-client-urls https://${ETCD_NODE_1}:2379 \
-  --listen-peer-urls https://${ETCD_NODE_1}:2380 \
-  --initial-advertise-peer-urls https://${ETCD_NODE_1}:2380 \
-  --initial-cluster ${ETCD_CLUSTER} \
+  --listen-client-urls https://${THIS_IP}:2379 \
+  --advertise-client-urls https://${THIS_IP}:2379 \
+  --listen-peer-urls https://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --initial-cluster ${CLUSTER} \
   --initial-cluster-token ${ETCD_TOKEN} \
   --initial-cluster-state ${ETCD_CLUSTER_STATE} \
   --heartbeat-interval=100 \
@@ -68,7 +71,7 @@ EOF
 
 ## run 3 node etcd cluster
 
-### for node 1
+### 1. for node 1
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -122,7 +125,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### for node 2
+### 2. for node 2
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -177,7 +180,7 @@ EOF
 ```
 
 
-### for node 3
+### 3. for node 3
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
