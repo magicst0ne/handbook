@@ -1,14 +1,14 @@
-# How to Set Up a Demo etcd Cluster
 
 - [How to Set Up a Demo etcd Cluster](#how-to-set-up-a-demo-etcd-cluster)
-  * [download and install binary](#download-and-install-binary)
-  * [run 1 node etcd](#run-1-node-etcd)
-  * [run 3 node etcd cluster](#run-3-node-etcd-cluster)
-    + [1. for node 1](#1-for-node-1)
-    + [2. for node 2](#2-for-node-2)
-    + [3. for node 3](#3-for-node-3)
+  * [Download And Install](#download-and-install)
+  * [Run 1 Node Etcd](#run-1-node-etcd)
+  * [Run 3 Node Etcd Cluster](#run-3-node-etcd-cluster)
+  * [1. For Node 1](#1-for-node-1)
+  * [2. For Node 2](#2-for-node-2)
+  * [2. For Node 3](#2-for-node-3)
 
-## download and install binary
+# How to Set Up a Demo etcd Cluster
+## Download And Install
 
 ```shell
 export ETCD_VER=v3.4.20
@@ -27,7 +27,7 @@ rm -rf /tmp/etcd-${ETCD_VER}
 
 ```
 
-## run 1 node etcd
+## Run 1 Node Etcd
 
 ```
 export ETCD_TOKEN=token
@@ -77,9 +77,9 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## run 3 node etcd cluster
+## Run 3 Node Etcd Cluster
 
--  for node 1
+## 1. For Node 1
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -133,7 +133,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
--  for node 2
+## 2. For Node 2
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -188,7 +188,7 @@ EOF
 ```
 
 
--  for node 3
+## 2. For Node 3
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
