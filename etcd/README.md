@@ -6,9 +6,9 @@
   * [Download And Install](#download-and-install)
   * [Run 1 Node Etcd](#run-1-node-etcd)
   * [Run 3 Node Etcd Cluster](#run-3-node-etcd-cluster)
-  * [1. For Node 1](#1-for-node-1)
-  * [2. For Node 2](#2-for-node-2)
-  * [2. For Node 3](#2-for-node-3)
+    + [For Node 1](#for-node-1)
+    + [For Node 2](#for-node-2)
+    + [For Node 3](#for-node-3)
   
 ## Download And Install
 
@@ -81,7 +81,7 @@ EOF
 
 ## Run 3 Node Etcd Cluster
 
-## 1. For Node 1
+### For Node 1
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -135,7 +135,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## 2. For Node 2
+### For Node 2
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
@@ -190,7 +190,7 @@ EOF
 ```
 
 
-## 2. For Node 3
+### For Node 3
 ```
 export ETCD_TOKEN=tkn.0x0E
 export ETCD_CLUSTER_STATE=new
