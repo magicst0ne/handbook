@@ -61,7 +61,7 @@ ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
   --advertise-client-urls https://${THIS_IP}:2379 \
   --listen-peer-urls https://${THIS_IP}:2380 \
   --initial-advertise-peer-urls https://${THIS_IP}:2380 \
-  --initial-cluster ${CLUSTER} \
+  --initial-cluster ${ETCD_CLUSTER} \
   --initial-cluster-token ${ETCD_TOKEN} \
   --initial-cluster-state ${ETCD_CLUSTER_STATE} \
   --heartbeat-interval=100 \
@@ -77,6 +77,9 @@ LimitNOFILE=65536
 [Install]
 WantedBy=multi-user.target
 EOF
+
+systemctl daemon-reload
+systemctl start etcd
 ```
 
 ## Run 3 Node Etcd Cluster
@@ -117,7 +120,7 @@ ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
   --advertise-client-urls https://${THIS_IP}:2379 \
   --listen-peer-urls https://${THIS_IP}:2380 \
   --initial-advertise-peer-urls https://${THIS_IP}:2380 \
-  --initial-cluster ${CLUSTER} \
+  --initial-cluster ${ETCD_CLUSTER} \
   --initial-cluster-token ${ETCD_TOKEN} \
   --initial-cluster-state ${ETCD_CLUSTER_STATE} \
   --heartbeat-interval=100 \
