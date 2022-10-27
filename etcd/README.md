@@ -13,12 +13,16 @@
 ## Download And Install
 
 ```shell
+#set env vars
 export ETCD_VER=v3.4.20
 export DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
 export DOWNLOAD_URL=https://ghproxy.com/${DOWNLOAD_URL}
 
+#download
 echo "Downloading "${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz
 curl -sL ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
+
+#install
 mkdir -p /tmp/etcd-${ETCD_VER}
 tar xzf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-${ETCD_VER} --strip-components=1
 
