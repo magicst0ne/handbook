@@ -23,12 +23,12 @@ echo "Downloading "${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.
 curl -sL ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 
 #install
-mkdir -p /tmp/etcd-${ETCD_VER}
-tar xzf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-${ETCD_VER} --strip-components=1
+mkdir -p /tmp/etcd-${ETCD_VER} && tar xzf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-${ETCD_VER} --strip-components=1
 
-mkdir -p /usr/local/etcd/{bin,ssl}
-mv /tmp/etcd-${ETCD_VER}/etcd* /usr/local/etcd/bin/
+mkdir -p /usr/local/etcd/{bin,ssl} && mv /tmp/etcd-${ETCD_VER}/etcd* /usr/local/etcd/bin/
 chmod +x /usr/local/etcd/bin/*
+
+#clear tmp files
 rm -rf /tmp/etcd-${ETCD_VER}
 
 ```
