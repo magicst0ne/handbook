@@ -50,13 +50,13 @@ Wants=network-online.target
 
 [Service]
 Type=notify
-WorkingDirectory=/k8s/etcd/
+WorkingDirectory=/usr/local/etcd/
 #User=etcd
 
 # set GOMAXPROCS to number of processors
 ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
   --name ${THIS_NAME} \
-  --data-dir /k8s/etcd/data.etcd \
+  --data-dir /usr/local/etcd/data.etcd \
   --listen-client-urls https://${THIS_IP}:2379 \
   --advertise-client-urls https://${THIS_IP}:2379 \
   --listen-peer-urls https://${THIS_IP}:2380 \
