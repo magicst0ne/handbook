@@ -40,7 +40,7 @@ export ETCD_TOKEN=token
 export ETCD_CLUSTER_STATE=new
 export ETCD_NAME_1=node-1
 export ETCD_NODE_1=192.168.1.101
-export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380
+export ETCD_CLUSTER=${ETCD_NAME_1}=http://${ETCD_NODE_1}:2380
 
 export THIS_NAME=${ETCD_NAME_1}
 export THIS_IP=${ETCD_NODE_1}
@@ -84,6 +84,10 @@ EOF
 
 systemctl daemon-reload
 systemctl start etcd
+
+echo "pls check etcd info"
+echo "/usr/local/etcd/bin/etcdctl --endpoints=${ENDPOINTS} -w table member list"
+echo "/usr/local/etcd/bin/etcdctl --endpoints=${ENDPOINTS} -w table endpoint status"
 ```
 
 ## Run 3 Node Etcd Cluster
