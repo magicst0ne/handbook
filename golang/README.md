@@ -18,7 +18,7 @@ echo "${SHA256SUM}  sha256sum"
 sha256sum /tmp/go${GO_VER}.linux-amd64.tar.gz
 
 #install
-sudo tar -C /usr/local -xvf /tmp/go${GO_VER}.linux-amd64.tar.gz
+sudo tar -C /usr/local -xf /tmp/go${GO_VER}.linux-amd64.tar.gz
 
 #setup env
 echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.profile
