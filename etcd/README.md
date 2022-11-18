@@ -86,9 +86,8 @@ EOF
 systemctl daemon-reload
 systemctl start etcd
 
-echo "pls check etcd info: \n \
-/usr/local/etcd/bin/etcdctl --endpoints=${ENDPOINTS} -w table member list\n
-/usr/local/etcd/bin/etcdctl --endpoints=${ENDPOINTS} -w table endpoint status"
+/usr/local/etcd/bin/etcdctl --endpoints=${ENDPOINTS} -w table member list
+/usr/local/etcd/bin/etcdctl --endpoints=${ENDPOINTS} -w table endpoint status
 
 ```
 
