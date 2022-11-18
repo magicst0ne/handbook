@@ -65,7 +65,7 @@ ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
   --listen-client-urls http://${THIS_IP}:2379 \
   --advertise-client-urls http://${THIS_IP}:2379 \
   --listen-peer-urls http://${THIS_IP}:2380 \
-  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls http://${THIS_IP}:2380 \
   --initial-cluster ${ETCD_CLUSTER} \
   --initial-cluster-token ${ETCD_TOKEN} \
   --initial-cluster-state ${ETCD_CLUSTER_STATE} \
