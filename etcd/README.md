@@ -103,7 +103,7 @@ export ETCD_NAME_3=node-3
 export ETCD_NODE_1=192.168.11.101
 export ETCD_NODE_2=192.168.11.102
 export ETCD_NODE_3=192.168.11.103
-export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=https://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=https://${ETCD_NODE_3}:2380
+export ETCD_CLUSTER=${ETCD_NAME_1}=http://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=http://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=http://${ETCD_NODE_3}:2380
 
 #for node 1
 export THIS_NAME=${ETCD_NAME_1}
@@ -157,7 +157,7 @@ export ETCD_NAME_3=node-3
 export ETCD_NODE_1=192.168.11.101
 export ETCD_NODE_2=192.168.11.102
 export ETCD_NODE_3=192.168.11.103
-export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=https://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=https://${ETCD_NODE_3}:2380
+export ETCD_CLUSTER=${ETCD_NAME_1}=http://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=http://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=http://${ETCD_NODE_3}:2380
 
 #for node 1
 export THIS_NAME=${ETCD_NAME_2}
@@ -179,10 +179,10 @@ WorkingDirectory=/usr/local/etcd/
 ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
   --name ${THIS_NAME} \
   --data-dir /k8s/etcd/data.etcd \
-  --listen-client-urls https://${THIS_IP}:2379 \
-  --advertise-client-urls https://${THIS_IP}:2379 \
-  --listen-peer-urls https://${THIS_IP}:2380 \
-  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --listen-client-urls http://${THIS_IP}:2379 \
+  --advertise-client-urls http://${THIS_IP}:2379 \
+  --listen-peer-urls http://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls http://${THIS_IP}:2380 \
   --initial-cluster ${CLUSTER} \
   --initial-cluster-token ${ETCD_TOKEN} \
   --initial-cluster-state ${ETCD_CLUSTER_STATE} \
@@ -212,7 +212,7 @@ export ETCD_NAME_3=node-3
 export ETCD_NODE_1=192.168.11.101
 export ETCD_NODE_2=192.168.11.102
 export ETCD_NODE_3=192.168.11.103
-export ETCD_CLUSTER=${ETCD_NAME_1}=https://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=https://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=https://${ETCD_NODE_3}:2380
+export ETCD_CLUSTER=${ETCD_NAME_1}=http://${ETCD_NODE_1}:2380,${ETCD_NAME_2}=http://${ETCD_NODE_2}:2380,${ETCD_NAME_3}=http://${ETCD_NODE_3}:2380
 
 #for node 3
 export THIS_NAME=${ETCD_NAME_3}
@@ -234,10 +234,10 @@ WorkingDirectory=/usr/local/etcd/
 ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/etcd/bin/etcd \
   --name ${THIS_NAME} \
   --data-dir /k8s/etcd/data.etcd \
-  --listen-client-urls https://${THIS_IP}:2379 \
-  --advertise-client-urls https://${THIS_IP}:2379 \
-  --listen-peer-urls https://${THIS_IP}:2380 \
-  --initial-advertise-peer-urls https://${THIS_IP}:2380 \
+  --listen-client-urls http://${THIS_IP}:2379 \
+  --advertise-client-urls http://${THIS_IP}:2379 \
+  --listen-peer-urls http://${THIS_IP}:2380 \
+  --initial-advertise-peer-urls http://${THIS_IP}:2380 \
   --initial-cluster ${CLUSTER} \
   --initial-cluster-token ${ETCD_TOKEN} \
   --initial-cluster-state ${ETCD_CLUSTER_STATE} \
