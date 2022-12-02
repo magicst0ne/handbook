@@ -1,25 +1,23 @@
 ## 1.Install bash git gmake:
 ```
 
-    pkg install bash git gmake
-
+pkg install bash git gmake
 
 ```
 
 ## 2.Install go:
 
 ```
+setenv GO_VER 1.19.3
+setenv DOWNLOAD_URL https://go.dev/dl
+echo "Downloading ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz"
+curl -sL ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz -o /tmp/go${GO_VER}.linux-amd64.tar.gz
 
-    setenv GO_VER 1.19.3
-    setenv DOWNLOAD_URL https://go.dev/dl
-    echo "Downloading ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz"
-    curl -sL ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz -o /tmp/go${GO_VER}.linux-amd64.tar.gz
-
-    tar -C /usr/local -xf /tmp/go${GO_VER}.linux-amd64.tar.gz
-	
-    echo "setenv PATH $PATH:/usr/local/go/bin" >> ~/.profile
-    setenv PATH $PATH:/usr/local/go/bin
-    go version
+tar -C /usr/local -xf /tmp/go${GO_VER}.linux-amd64.tar.gz
+    
+echo "setenv PATH $PATH:/usr/local/go/bin" >> ~/.profile
+setenv PATH $PATH:/usr/local/go/bin
+go version
 
 ```
 
@@ -27,15 +25,14 @@
 ## 3.Build containerd from source
 ```
 
-    # Check out containerd source
-    git clone https://github.com/containerd/containerd.git
-    cd containerd
-    # Minimum required containerd version is v1.6.7
-    # Find the latest with `git tag -l | tail`
-    git checkout v1.6.8
-    # Use gnu make!
-    gmake install
-	
+# Check out containerd source
+git clone https://github.com/containerd/containerd.git
+cd containerd
+# Minimum required containerd version is v1.6.7
+# Find the latest with `git tag -l | tail`
+git checkout v1.6.8
+# Use gnu make!
+gmake install
 
 ```
 
@@ -43,9 +40,9 @@
 
 ```
 
-    git clone https://github.com/samuelkarp/runj.git
-    cd runj
-    make && make install
+git clone https://github.com/samuelkarp/runj.git
+cd runj
+make && make install
 
 
 ```
@@ -54,12 +51,12 @@
 
 ```
 
-    kldload linux
-    # To load the Linux module at boot, run
-    # echo 'linux_load="YES"' >> /boot/loader.conf
-    service linux onestart
-    # To enable Linux emulation at boot, run
-    # echo 'linux_enable="YES"' >> /etc/rc.conf
+kldload linux
+# To load the Linux module at boot, run
+# echo 'linux_load="YES"' >> /boot/loader.conf
+service linux onestart
+# To enable Linux emulation at boot, run
+# echo 'linux_enable="YES"' >> /etc/rc.conf
 
 
 ```
@@ -68,12 +65,12 @@
 
 ```
 
-    mkdir /var/lib/containerd/io.containerd.snapshotter.v1.zfs
-    zfs create -o mountpoint=/var/lib/containerd/io.containerd.snapshotter.v1.zfs zroot/containerd
+mkdir /var/lib/containerd/io.containerd.snapshotter.v1.zfs
+zfs create -o mountpoint=/var/lib/containerd/io.containerd.snapshotter.v1.zfs zroot/containerd
 
-    containerd config default | sed '/io.containerd.snapshotter.v1.zfs/{n;s/root_path\ \= \"\"/root_path\ \= \"\/var\/lib\/containerd\/io.containerd.snapshotter.v1.zfs\"/;}'
+containerd config default | sed '/io.containerd.snapshotter.v1.zfs/{n;s/root_path\ \= \"\"/root_path\ \= \"\/var\/lib\/containerd\/io.containerd.snapshotter.v1.zfs\"/;}'
 
-	
+    
 ```
 
 ## 7.Running containerd
@@ -103,7 +100,7 @@ EOF
 
 service containerd onestart
 echo 'containerd_enable="YES"' >> /etc/rc.conf
-	
+    
 ctr version
 
     
