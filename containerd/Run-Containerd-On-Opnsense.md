@@ -1,4 +1,4 @@
-## Install bash git gmake:
+## 1.Install bash git gmake:
 ```
 
     pkg install bash git gmake
@@ -6,25 +6,25 @@
 
 ```
 
-## Install go:
+## 2.Install go:
 
 ```
 
     setenv GO_VER 1.19.3
-	  setenv DOWNLOAD_URL https://go.dev/dl
+    setenv DOWNLOAD_URL https://go.dev/dl
     echo "Downloading ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz"
-	  curl -sL ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz -o /tmp/go${GO_VER}.linux-amd64.tar.gz
+    curl -sL ${DOWNLOAD_URL}/go${GO_VER}.linux-amd64.tar.gz -o /tmp/go${GO_VER}.linux-amd64.tar.gz
 
     tar -C /usr/local -xf /tmp/go${GO_VER}.linux-amd64.tar.gz
 	
     echo "setenv PATH $PATH:/usr/local/go/bin" >> ~/.profile
     setenv PATH $PATH:/usr/local/go/bin
-	  go version
+    go version
 
 ```
 
 
-## Build containerd
+## 3.Build containerd from source
 ```
 
     # Check out containerd source
@@ -35,14 +35,50 @@
     git checkout v1.6.8
     # Use gnu make!
     gmake install
-    # Start containerd
-    service containerd onestart
-    # For persistence across reboots, add containerd to /etc/rc.conf run     at boot
-    # echo 'containerd_enable="YES"' >> /etc/rc.conf
-    #
-    # This also seems to be necessary
-    mkdir /var/lib/containerd/io.containerd.snapshotter.v1.zfs
+	
 
+```
+
+## 4.Build runj from source
+
+```
+
+    git clone https://github.com/samuelkarp/runj.git
+    cd runj
+    make && make install
+
+
+```
+
+## 5.Enable Linux emulation
+
+```
+
+    kldload linux
+    # To load the Linux module at boot, run
+    # echo 'linux_load="YES"' >> /boot/loader.conf
+    service linux onestart
+    # To enable Linux emulation at boot, run
+    # echo 'linux_enable="YES"' >> /etc/rc.conf
+
+
+```
+
+## 6.Configuring containerd
+
+```
+
+    mkdir /var/lib/containerd/io.containerd.snapshotter.v1.zfs
+    zfs create -o mountpoint=/var/lib/containerd/io.containerd.snapshotter.v1.zfs zroot/containerd
+
+    containerd config default | sed '/io.containerd.snapshotter.v1.zfs/{n;s/root_path\ \= \"\"/root_path\ \= \"\/var\/lib\/containerd\/io.containerd.snapshotter.v1.zfs\"/;}'
+
+	
+```
+
+## 7.Running containerd
+
+```
 cat > /usr/local/etc/rc.d/containerd << EOF
 
 #!/bin/sh
@@ -65,37 +101,23 @@ run_rc_command "$1"
 
 EOF
 
-```
-
-## Build runj
-
-```
-
-    git clone https://github.com/samuelkarp/runj.git
-    cd runj
-    gmake install
-
-
-```
-
-## Enable Linux emulation
-
-```
-
-    kldload linux
-    # To load the Linux module at boot, run
-    # echo 'linux_load="YES"' >> /boot/loader.conf
-    service linux onestart
-    # To enable Linux emulation at boot, run
-    # echo 'linux_enable="YES"' >> /etc/rc.conf
-
-
-```
-
-## Run a Linux container!
-```
-
-    ctr version
+service containerd onestart
+echo 'containerd_enable="YES"' >> /etc/rc.conf
+	
+ctr version
 
     
+```
+
+## 8.Run a Linux container!
+
+```
+
+# Pull the image
+ctr image pull --platform=linux docker.io/library/alpine:latest
+#
+# And ....
+ctr run --rm --tty --runtime wtf.sbk.runj.v1 --snapshotter zfs --platform linux docker.io/library/alpine:latest mylinuxcontainer uname -a
+
+
 ```
