@@ -3,7 +3,7 @@
 1. Download containerd all in one tar package
 
 ```shell
-curl -LJO https://github.com/containerd/containerd/releases/download/v1.6.19/cri-containerd-cni-1.6.19-linux-amd64.tar.gz
+curl -LJO https://github.com/containerd/containerd/releases/download/v1.7.0/cri-containerd-cni-1.7.0-linux-amd64.tar.gz
 ```
 
 
@@ -11,7 +11,7 @@ curl -LJO https://github.com/containerd/containerd/releases/download/v1.6.19/cri
 2. Unpack files create config file and start service
 
 ```shell
-tar -C /  -xzf cri-containerd-cni-1.6.19-linux-amd64.tar.gz
+tar -C /  -xzf cri-containerd-cni-1.7.0-linux-amd64.tar.gz
 mkdir -p /etc/containerd
 containerd config default > /etc/containerd/config.toml
 
